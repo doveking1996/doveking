@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>always love u</title>
+		<style>
+			html {
+				height: 100%;
+			}
+			body{
+				background-color: black;
+				/*隐藏滚动条*/
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+				/*径向渐变与线性渐变类似，参考前面的代码*/
+				/*background-image: radial-gradient(white,black 80%);*/
+			}
+			img{
+				animation: rotate 1s linear infinite;
+			}
+			@keyframes rotate{
+				from{
+					transform: rotate(0);
+				}
+				to{
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			//如果看到方法名首字母大写的方法，那么这在通常意义上是一个构造函数
+			//这里的构造函数可以理解成构造一个雪花用的
+			function Flake(){
+				//createElement是创建一个页面上的标签，这里是创建img标签，并且将所创建的标签存入flake变量当中
+				var flake = document.createElement('img');
+				//获取页面的宽高
+				//定义一个变量width用来存储页面的宽度，documentElement是我们用了存放页面上一些常量的对象
+				var width = document.documentElement.clientWidth;
+				var height = document.documentElement.clientHeight;
+				//定义雪花的随机位置
+				var left = Math.random() * width;
+				var top = Math.random() * height;
+				//设置元素的属性时直接打点调用想要设置的属性，这里设置路径为同级目录下的文件名
+				flake.src = '1.png';
+				//我们想改变img的样式时，选调用style，再调用它的具体的属性，例如width，height
+				flake.style.width = '100px';
+				flake.style.height = '100px';
+				//先给元素一个绝对定位，让它能够根据之后赋予的left和top改变自身的位置
+				flake.style.position = 'absolute';
+				//给元素修改样式是需要使用字符串赋值
+				//这里Math.random() * width代表从0到页面宽度的范围
+				flake.style.left = left + 'px';
+				//设置元素随机高度
+				flake.style.top = top + 'px';
+				//设置雪花大小随机，使用我们过渡中的缩放scale
+				flake.style.transform = 'scale(' + (Math.random() * 0.3 + 0.2) + ')';
+				//定义一个down方法让雪花每次移动一段距离
+				function down(){
+					//雪花的每0.1秒的偏移量
+					left = left + 2;
+					top = top + 4;
+					//当雪花跑到大于屏幕范围的时候，设置它的位置回到最左边，使其重新显示在页面上
+					if(left > width){
+						left = -100;
+					}
+					if(top > height){
+						top = -100;
+					}
+					//设置雪花的位置
+					flake.style.left = left + 'px';
+					flake.style.top = top + 'px';
+				}
+				//设置一个定时触发器，让雪花每0.1秒移动一次
+				setInterval(down, 50);
+				
+				//document.body这里是获取到页面上的body标签，然后向body标签中添加子元素flake（也就是我们创建的img标签）
+				document.body.appendChild(flake)
+			}
+			for(var i = 0;i < 50;i++){
+				new Flake();
+			}
+			
+		</script>
+	</body>
+</html>
